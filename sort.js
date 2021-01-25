@@ -31,7 +31,7 @@ function insert(arr) {
 }
 // console.log(insert([5,3,4,1,2]))
 
-// 归并排序，利用递归，讲数组所有分散成单个元素，然后对比大小顺序进行归并组合
+// 归并排序，利用递归，将数组所有分散成单个元素，然后对比大小顺序进行归并组合
 function merge(arr) {
     if (arr.length === 1) return arr;
     let left = [], right = [];
@@ -59,6 +59,7 @@ function mergeAction(left, right) {
 }
 // console.log(merge([5,3,4,1,2]))
 
+// 设定基准值，一般取最右边，小于基准值的放左边，大于的放右边
 function quick(arr) {
     if (arr.length <= 1) return arr;
     let left = [], right = [];
@@ -74,6 +75,7 @@ function quick(arr) {
 }
 // console.log(quick([5,3,4,1,2]))
 
+// 快速排序in-place版本，选取最右边的为基准值，并设置storeIndex为0，小于的和arr[storeIndex]交换位置，最后将基准值换到arr[storeIndex]上
 function quickInPlace(arr) {
     function swap(arr, a, b) {
         let temp = arr[a];
@@ -101,6 +103,6 @@ function quickInPlace(arr) {
     sort(arr, 0, arr.length - 1);
     return arr;
 }
-console.log(quickInPlace([5,3,4,1,2]))
+// console.log(quickInPlace([5,3,4,1,2]))
 
 
