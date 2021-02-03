@@ -36,10 +36,10 @@ function merge(arr) {
     if (arr.length === 1) return arr;
     let left = [], right = [];
         index = Math.floor(arr.length / 2);
-        left = arr.slice(0, index);
-        right = arr.slice(index, arr.length);
+    left = arr.slice(0, index);
+    right = arr.slice(index, arr.length);
     return mergeAction(merge(left), merge(right));
-}
+} 
 function mergeAction(left, right) {
     let nl = 0, nr = 0, arr = [];
     while(nl < left.length && nr < right.length) {
@@ -82,7 +82,7 @@ function quickInPlace(arr) {
         arr[a] = arr[b];
         arr[b] = temp; 
     }
-    function part(arr, left, right) {
+    function partition(arr, left, right) {
         let pivot = arr[right],
             storeIndex = left;
         for (let i = left; i < right; i++) {
@@ -96,7 +96,7 @@ function quickInPlace(arr) {
     }
     function sort(arr, left, right) {
         if (left > right) return;
-        let storeIndex = part(arr, left, right);
+        let storeIndex = partition(arr, left, right);
         sort(arr, left, storeIndex - 1);
         sort(arr, storeIndex + 1, right);
     }
