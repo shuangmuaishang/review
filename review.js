@@ -40,7 +40,7 @@ function deepClone(obj) {
     return copy;
 }
 
-// 函数柯里化
+// 函数柯里化（其实就是一个收集参数的过程，参数够了就执行给的函数）
 function curry(fn, args) {
     var length = fn.length;
     args = args || [];
@@ -61,7 +61,35 @@ var fn = curry(function(a, b, c) {
     console.log([a, b, c]);
 });
 
-fn("a", "b", "c")
-fn("a", "b")("c")
-fn("a")("b")("c")
-fn("a")("b", "c")
+// fn("a", "b", "c")
+// fn("a", "b")("c")
+// fn("a")("b")("c")
+// fn("a")("b", "c")
+
+Function.prototype.simulateCall = function(content, ...args) {
+    let ctx = content || window;
+    ctx.fun = this;
+    const result = ctx.fun(...args);
+    delete ctx.fun;
+    return result;
+}  
+ 
+Function.prototype.simulateApply = function(content, args) {
+    let ctx = content || window;
+    ctx.fun = this;
+    const result = ctx.fun(...args);
+    delete ctx.fun;
+    return result;
+} 
+// console.log(Math.max.simulateApply(this, [3,4,5]))
+
+function _new(fn, ...arg) {
+    const obj = Object.create(fn.prototype);
+    const res = fn.apply(obj, arg);
+    // 返回三种情况，返回对象则是对象，返回undefined则是构造对象，返回除undefined之外的基本类型则是构造对象
+    return res instanceof Object ? res : obj;
+}
+function Car(color, name) {
+    this.color = color;
+}
+console.log(_new(Car, 'red'))
