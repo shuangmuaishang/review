@@ -92,4 +92,13 @@ function _new(fn, ...arg) {
 function Car(color, name) {
     this.color = color;
 }
-console.log(_new(Car, 'red'))
+// console.log(_new(Car, 'red'))
+
+function flatten(arr) {
+    return arr.reduce(function(prev, next){
+        return prev.concat(Array.isArray(next) ? flatten(next) : next)
+    }, [])
+}
+var arr = [1, [2, [3, 4]]];
+
+console.log(flatten(arr))
