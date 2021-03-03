@@ -83,6 +83,21 @@ Function.prototype.simulateApply = function(content, args) {
 } 
 // console.log(Math.max.simulateApply(this, [3,4,5]))
 
+
+Function.prototype.simularBind = function (context, ...args) {
+    context = context || window;
+    context.fn = this;
+    
+    return function (..._args) {
+        args = args.concat(_args);
+      
+        let res = context.fn(...args);
+        delete context.fn;   
+        return res;
+    }
+}
+// console.log(Math.max.bind(this)(2,3,4))
+
 function _new(fn, ...arg) {
     const obj = Object.create(fn.prototype);
     const res = fn.apply(obj, arg);
@@ -100,5 +115,57 @@ function flatten(arr) {
     }, [])
 }
 var arr = [1, [2, [3, 4]]];
+// console.log(flatten(arr))
 
-console.log(flatten(arr))
+
+class MyPromise {
+    constructor(fn) {
+        this.resolvedCallbacks = [];
+        this.rejectedCallbacks = [];
+      
+        this.state = 'PENDING';
+        this.value = '';
+      
+        fn(this.resolve.bind(this), this.reject.bind(this));
+      
+    }
+    
+    resolve(value) {
+        if (this.state === 'PENDING') {
+            this.state = 'RESOLVED';
+            this.value = value;
+        
+            this.resolvedCallbacks.map(cb => cb(value));   
+        }
+    }
+    
+    reject(value) {
+        if (this.state === 'PENDING') {
+            this.state = 'REJECTED';
+            this.value = value;
+        
+            this.rejectedCallbacks.map(cb => cb(value));
+        }
+    }
+    
+    then(onFulfilled, onRejected) {
+        if (this.state === 'PENDING') {
+            this.resolvedCallbacks.push(onFulfilled);
+            this.rejectedCallbacks.push(onRejected);
+        
+        }
+      
+        if (this.state === 'RESOLVED') {
+            onFulfilled(this.value);
+        }
+      
+        if (this.state === 'REJECTED') {
+            onRejected(this.value);
+        }
+    }
+}
+// let a = new MyPromise(function(resolve, reject) {
+//     resolve('aaa')
+// }).then((data) => {
+//     console.log(data)
+// })
