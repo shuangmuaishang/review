@@ -1,4 +1,4 @@
-// 冒泡：每个元素不断与后一个元素比较，如果前者大于后者，交换顺序
+// 冒泡：每个元素不断与后一个元素比较，如果前者大于后者，交换顺序（时间：O(n2)，空间O(1)）
 function bubble(arr) {
     let r = 0;
     for (let i = 0; i < arr.length - 1; i++) {
@@ -16,7 +16,7 @@ function bubble(arr) {
 }
 // console.log(bubble([5,3,4,1,2]))
 
-// 插入排序，第一个视为已经排序好的，从第二个开始，跟前一个进行比对，假如前者大于后者，将前者挪后，继续往前一格，知道遇到前者小于后者，将元素插入
+// 插入排序，第一个视为已经排序好的，从第二个开始，跟前一个进行比对，假如前者大于后者，将前者挪后，继续往前一格，知道遇到前者小于后者，将元素插入（时间：O(n2)，空间O(1)）
 function insert(arr) {
     for (let i = 1; i < arr.length; i++) {
         let pre = i - 1;
@@ -31,7 +31,7 @@ function insert(arr) {
 }
 // console.log(insert([5,3,4,1,2]))
 
-// 归并排序，利用递归，将数组所有分散成单个元素，然后对比大小顺序进行归并组合
+// 归并排序，利用递归，将数组所有分散成单个元素，然后对比大小顺序进行归并组合（时间：O(nlogn)）
 function merge(arr) {
     if (arr.length === 1) return arr;
     let left = [], right = [];
@@ -59,7 +59,7 @@ function mergeAction(left, right) {
 }
 // console.log(merge([5,3,4,1,2]))
 
-// 设定基准值，一般取最右边，小于基准值的放左边，大于的放右边
+// 设定基准值，一般取最右边，小于基准值的放左边，大于的放右边（时间：O(nlogn)）
 function quick(arr) {
     if (arr.length <= 1) return arr;
     let left = [], right = [];
