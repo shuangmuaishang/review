@@ -1,10 +1,13 @@
 // 贪心问题
-var canJump = function(nums) {
-    let max = 0;
-    for (let i = 0; i < nums.length; i++) {
-        if (i > max || max >= nums.length - 1) break;
-        max = Math.max(max, i + nums[i]);
-    }
-    return max >= nums.length - 1;
-};
-console.log(canJump([0,2,3]))
+// 55、跳跃游戏（每个index上都有一个数字，表示跳跃的距离，判断能否跳到终点）
+(1)设置max，记录每一格跳的最远距离，i > max表示跳不到终点，max >= nums.length - 1表示跳到终点
+
+// 45、跳跃游戏二（每个index上都有一个数字，假设必会到达终点，求得最小的跳跃次数）
+(1)设置max，记录每一格跳的最远距离，每次到达最远距离以后，step+1
+
+// 121、买卖股票的最佳时机1（单次买卖）
+(1)暴力法，遍历每个数i之后逐个数j，nums[j] - nums[i]的最大值
+
+// 122、买卖股票的最佳时机2（多次买卖，尽可能多的赚钱）
+(2)
+

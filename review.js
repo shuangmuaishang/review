@@ -1,4 +1,4 @@
-// 防抖
+// 防抖 
 function debounce(fn, delay) {
     let timer = null;
     return function() {
@@ -10,7 +10,7 @@ function debounce(fn, delay) {
     }
 }
 
-// 节流
+// 节流 (timer = null 不要忘记！)
 function throttle(fn, delay) {
     let timer;
     return function() {
@@ -28,6 +28,19 @@ function deepClone(obj) {
     if (typeof obj !== 'object' || obj === null) {
         return obj;
     }
+
+    // if (obj instanceof Function) {
+    //     return function () {
+    //         return obj.apply(this, arguments);
+    //     }
+    // }
+    // if (obj instanceof RegExp) {
+    //     return new RegExp(obj.source, obj.flags);
+    // }
+    // if (obj instanceof Date) {
+    //     return new Date(obj);
+    // }
+
     let copy = {};
     if (obj.constructor === Array) {
         copy = [];
@@ -40,7 +53,7 @@ function deepClone(obj) {
     return copy;
 }
 
-// 函数柯里化（其实就是一个收集参数的过程，参数够了就执行给的函数）
+// 函数柯里化（其实就是一个收集参数的过程，参数够了就执行给的函数）（return 调用的参数是_args, 跟args没关系了！）
 function curry(fn, args) {
     var length = fn.length;
     args = args || [];
@@ -66,6 +79,7 @@ var fn = curry(function(a, b, c) {
 // fn("a")("b")("c")
 // fn("a")("b", "c")
 
+// call、apply、bind可以用Symbol避免fun冲突
 Function.prototype.simulateCall = function(content, ...args) {
     let ctx = content || window;
     ctx.fun = this;
