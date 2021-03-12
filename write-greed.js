@@ -37,5 +37,29 @@ const backPackII = function (m, A, V) {
 
     return dp[A.length][m]
 }
-123
 
+// 01背包1维
+let backpage = function(m, A, V) {
+    let dp = new Array(m + 1).fill(0);
+    for (let i = 0; i < A.length; i++) {
+        for (let j = m; j >= A[i]; j--) {
+            dp[j] = Math.max(dp[j], dp[j - A[i]] + V[i])
+        }
+        console.log(dp)
+    }
+    return dp[m];
+}
+console.log(backpage(4,[1,3,4],[15, 20, 30]))
+
+// 多重背包1维
+let backpage = function(m, A, V) {
+    let dp = new Array(m + 1).fill(0);
+    for (let i = 0; i < A.length; i++) {
+        for (let j = A[i]; j <= m; j++) {
+            dp[j] = Math.max(dp[j], dp[j - A[i]] + V[i])
+        }
+        console.log(dp)
+    }
+    return dp[m];
+}
+console.log(backpage(4,[1,3,4],[15, 20, 30]))
