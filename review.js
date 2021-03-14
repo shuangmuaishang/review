@@ -1,7 +1,7 @@
 // 防抖 
 function debounce(fn, delay) {
     let timer = null;
-    return function() {
+    return function() { 
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => {
             fn.apply(this, arguments);
@@ -183,3 +183,57 @@ class MyPromise {
 // }).then((data) => {
 //     console.log(data)
 // })
+
+Promise.myall = function (iterator) {  
+    let count = 0//用于计数，当等于len时就resolve
+    let len = iterator.length
+    let res = []//用于存放结果
+    return new Promise((resolve,reject) => {
+        for(let i in iterator){
+            Promise.resolve(iterator[i])//先转化为Promise对象
+            .then((data) => {
+                res[i] = data;
+                if(++count === len){
+                    resolve(res)
+                }
+            })
+            .catch(e => {
+                reject(e)
+            })
+        }
+    })
+}
+// var promise1 = Promise.resolve(3);
+// var promise2 = new Promise(function(resolve, reject) {
+//   setTimeout(resolve, 2000, 'foo');
+// });
+// var promise3 = 42;
+
+// Promise.myall([promise1, promise2, promise3]).then(function(values) {
+//   console.log(values);
+// });
+Promise.race = function (iterators) {  
+    return new Promise((resolve,reject) => {
+        for (const p of iterators) {
+            Promise.resolve(p)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch(e => {
+                reject(e)
+            })
+        }
+    })
+
+}
+var promise1 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 500, 'one');
+});
+
+var promise2 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 100, 'two');
+});
+Promise.race([promise1, promise2]).then(function(value) {
+    console.log(value);
+    // Both resolve, but promise2 is faster
+});``
