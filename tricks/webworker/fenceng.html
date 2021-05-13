@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #canvas1 {
+            will-change: opacity;
+        }
+        #canvas2 {
+            position: relative;
+            top: 0;
+            left: -100px
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="300" height="150"></canvas>
+    <canvas id="canvas2" width="300" height="150"></canvas>
+
+    <script>
+        let canvas1 = document.querySelector('#canvas1');
+        let ctx1 = canvas1.getContext('2d');
+
+        let canvas2 = document.querySelector('#canvas2');
+        let ctx2 = canvas2.getContext('2d');
+
+        let x = 0, y = 0;
+        function move() {
+            ctx1.fillStyle = 'red';
+            ctx1.fillRect(0,0,100,100);
+
+        }
+        move();
+        
+
+        ctx2.beginPath();
+        ctx2.rect(120,120,10,10);
+        ctx2.fillStyle = 'blue';
+        ctx2.fill();
+        
+        // requestAnimationFrame(move)
+
+    </script>
+</body>
+</html>

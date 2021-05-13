@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="150"></canvas>
+    <script>
+        let canvas = document.querySelector('#canvas');
+        let context = canvas.getContext('2d');
+        // let ctx = canvas.getContext('2d');   
+
+        // 方法一，利用isPointInPath
+        // function draw1() {
+        //     ctx.beginPath();
+        //     ctx.rect(10,10,100,100);
+        //     ctx.lineWidth = 10;
+        // }
+        
+        // function draw2() {
+        //     ctx.beginPath();
+        //     ctx.fillStyle = 'red';
+        //     ctx.rect(10,120,100,100);
+        // }
+
+        // let arr = [draw1, draw2];
+        // for (let fun of arr) {
+        //     fun();
+        //     ctx.fill();
+        // }
+        // canvas.addEventListener('click', function(e) {
+        //     let result = null;
+        //     for (let fun of arr) {
+        //         fun();
+        //         if (ctx.isPointInPath(e.layerX, e.layerY)) {
+        //             console.log(result = fun);
+        //             break;
+        //         }
+        //         // console.log(e.layerX, e.layerY,ctx.isPointInPath(e.layerX, e.layerY))
+        //     }
+        // })
+
+        // 方法二
+        let imageDataArr = [];
+
+        let offscreenCanvas1 = document.createElement('canvas');
+        let ctx1 = offscreenCanvas1.getContext('2d');
+        ctx1.beginPath();
+        ctx1.rect(0,0,100,100);
+        ctx1.fillStyle = 'red';
+        ctx1.fill();
+        let imageData1 = ctx1.getImageData(0, 0, offscreenCanvas1.width, offscreenCanvas1.height)
+        imageDataArr.push(imageData1)
+        context.drawImage(offscreenCanvas1, 0, 0)
+        
+        let offscreenCanvas2 = document.createElement('canvas');
+        let ctx2 = offscreenCanvas2.getContext('2d');
+        ctx2.beginPath();
+        ctx2.rect(120,120,10,10);
+        ctx2.fillStyle = 'blue';
+        ctx2.fill();
+        let imageData2 = ctx2.getImageData(0, 0, offscreenCanvas2.width, offscreenCanvas2.height)
+        imageDataArr.push(imageData2)
+        context.drawImage(offscreenCanvas2, 0, 0)
+
+        canvas.addEventListener('click', function(e) {
+            for (let data of imageDataArr) {
+                console.log(e.layerX, e.layerY, ((e.layerY - 1) * canvas.width + Number(e.layerX)) * 4 + 3)
+                console.log(data)
+                console.log(data.data[((e.layerY - 1) * canvas.width + Number(e.layerX)) * 4 + 3])
+                // console.log(data[(e.layerY - 1) * canvas.width + e.layerX])
+                // if (data[(e.layerY - 1) * canvas.width + e.layerX])
+            }
+            // console.log(e.layerX, e.layerY)
+        })
+
+    </script>
+</body>
+</html>

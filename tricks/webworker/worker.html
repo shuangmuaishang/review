@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        
+        // messageChannel demo
+        // let worker1 = new Worker('worker1.js')
+        // let worker2 = new Worker('worker2.js')
+        // let channel = new MessageChannel();
+        // worker1.postMessage("port1", [channel.port1])
+        // worker2.postMessage("port1", [channel.port2])
+        // worker2.onmessage = function(e) {
+        //     console.log(e.data)
+        // }
+
+        // demo1
+        // function ha() {
+        //     this.addEventListener('message', function(e) {
+        //         console.log('我是worker收到了消息')
+        //     })
+        //     console.log('我是在主页上的')
+        // }
+        // let blob = new Blob(['(' + ha.toString() + ')()'])
+        // let url = window.URL.createObjectURL(blob);
+        // console.log(url)
+        // let worker2 = new Worker(url);
+        // worker2.postMessage({b:1})
+
+        // demo2
+        // let worker1 = new Worker('worker1.js');
+        // let obj = {a:2, b: {c:3}}
+        // // 普通的类型postmessage比如数组、字符串都会复制一份，这样确保了你多个线程不会修改同一个变量，但是对于大文件，复制操作
+        // // 会很慢，而且损失性能。比如，如果你在做一些图片相关的运算，你可能会传递整个图片信息，就可能会遇到复制性能的瓶颈。transfer对象
+        // // 不会被复制，比如ArrayBuffer
+        // let arr = new ArrayBuffer(100);
+        // console.log(arr.byteLength) // 100
+        // worker1.postMessage(arr, [arr]);
+        // console.log(arr.byteLength) // 0
+
+        // worker1.addEventListener('message', function(e) {
+        //     // console.log(e.data);
+        //     worker1.terminate();
+
+        // })
+    </script>
+</body>
+</html>

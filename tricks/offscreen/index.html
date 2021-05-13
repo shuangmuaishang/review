@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="500" height="500"></canvas>
+</body>
+    <script>
+        class Particle {
+            constructor(r) {
+                this.canvas = document.createElement('canvas'); // 创建一个新的canvas
+                this.width = this.canvas.width = r * 2; // 创建一个正好包裹住一个粒子canvas
+                this.height = this.canvas.height = r * 2;
+                this.ctx = this.canvas.getContext('2d');
+                this.x = this.width / 2;
+                this.y = this.height / 2;
+                this.r = r; // 半径
+
+                this.create();
+            }
+
+            // 创建粒子
+            create() {
+                this.ctx.save();
+                this.ctx.fillStyle = 'black';
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+                this.ctx.closePath();
+                this.ctx.fill();
+                this.ctx.restore();
+            }
+
+            // 移动粒子
+            move(ctx, x, y) {
+                // 将这个新创建的canvas画到真正显示的canvas上
+                ctx.drawImage(this.canvas, x, y);
+            }
+        }
+        class Scene {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.width = this.canvas.width = 800;
+                this.height = this.canvas.height = 500;
+                this.ctx = this.canvas.getContext('2d');
+
+                this.amount = 4000; // 粒子总数量
+                this.radius = 5; // 粒子半径
+                this.particles = []; // 粒子集合
+                this.speed = 10; // 粒子速度
+
+                this.init();
+            }
+            drawParticle(ctx, x, y, r) {
+                ctx.fillStyle = 'black';
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, 2 * Math.PI);
+                ctx.closePath();
+                ctx.fill();
+            }
+            init() {
+                this.particles = [];
+                let particle = new Particle(this.radius);
+                for (let i = 0; i < this.amount; i++) {
+                    let rx = Math.floor(this.radius + Math.random() * (this.width - this.radius * 2));
+                    let ry = Math.floor(this.radius + Math.random() * (this.height - this.radius * 2));
+
+                    // 每一个粒子创建一个实例
+                    
+
+                    this.particles.push({
+                        instance: particle,
+                        x: rx,
+                        y: ry,
+                        isMax: false
+                    });
+                    particle.move(this.ctx, rx, ry, this.radius);
+
+                }
+                this.animate();
+
+                // this.particles = [];
+
+                // // 随机位置生成粒子
+                // for (let i = 0; i < this.amount; i++) {
+                //     let rx = Math.floor(this.radius + Math.random() * (this.width - this.radius * 2));
+                //     let ry = Math.floor(this.radius + Math.random() * (this.height - this.radius * 2));
+
+                //     this.particles.push({
+                //         x: rx,
+                //         y: ry,
+                //         isMax: false // 是否达到边界
+                //     });
+                //     this.drawParticle(this.ctx, rx, ry, this.radius);
+                // }
+
+                // // 动画
+                // this.animate();
+            }
+            animate() {
+                this.ctx.clearRect(0, 0, this.width, this.height);
+
+                for (let i = 0; i < this.particles.length; i++) {
+                    let particle = this.particles[i];
+
+                    // 判断是是否到达边界
+                    if (particle.isMax) {
+                        particle.y -= this.speed;
+                        if (particle.y <= 0 + this.radius) {
+                            particle.isMax = false;
+                            particle.y += this.speed;
+                        }
+                    } else {
+                        particle.y += this.speed;
+                        if (particle.y >= this.height - this.radius) {
+                            particle.isMax = true;
+                            particle.y -= this.speed;
+                        }
+                    }
+
+                    // 重绘
+                    particle.instance.move(this.ctx, particle.x, particle.y, this.radius);
+                }
+
+                let self = this;
+                requestAnimationFrame(() => {
+                        self.animate();
+                });
+            }
+        }
+        let canvas = document.querySelector('canvas');
+        new Scene(canvas)
+        
+        
+
+
+        var rAF = function () {
+            return (
+                window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                }
+            );
+        }();
+
+        
+        var frame = 0;
+        var lastTime = Date.now();
+        
+        var loop = function () {
+            var now = Date.now();
+            // 不置 0，在动画的开头及结尾记录此值的差值算出 FPS
+            frame++;
+        
+            if (now > 1000 + lastTime) {
+                var fps = Math.round((frame * 1000) / (now - lastTime));
+                console.log(`${new Date()} 1S内 FPS：`, fps);
+                frame = 0;
+                lastTime = now;
+            };
+        
+            rAF(loop);
+        }
+        
+        loop();
+    </script>
+</html>
