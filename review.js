@@ -252,3 +252,56 @@ class Axios {
         }) 
     } 
 } 
+
+// js继承
+// 构造函数继承，缺点：无法获取原型上的属性
+function Parent(name) {
+    this.name = name;
+}
+function Child(name, age) {
+    Parent.call(name, this);
+    this.age = age;
+}
+// 原型继承，缺点：不方便传构造函数的参数，而且不同实例原型属性同时改变
+function Parent(name) {
+    this.name = 'liu';
+}
+Parent.prototype.say = function() {
+    console.log(11)
+}
+function Child(age) {
+    this.age = 21;
+}
+Child.prototype = new Parent();
+Child.prototype.constructor = Child;
+// 组合继承，父类构造函数调用2次
+function Parent(name) {
+    this.name = name;
+}
+Parent.prototype.say = function() {
+    console.log(11)
+}
+function Child(name, age) {
+    Parent.call(name, this);
+    this.age = age;
+}
+Child.prototype = new Parent();
+Child.prototype.constructor = Child;
+// 寄生组合集成
+function Parent(name) {
+    this.name = name;
+}
+Parent.prototype.say = function() {
+    console.log(11)
+}
+function create(obj) {
+    function F() {}
+    F.prototype = obj;
+    return new F();
+}
+function Child(name, age) {
+    Parent.call(name, this);
+    this.age = age;
+}
+Child.prototype = create(Parent.prototype);
+Child.prototype.constructor = Child;

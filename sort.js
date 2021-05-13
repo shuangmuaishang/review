@@ -105,4 +105,11 @@ function quickInPlace(arr) {
 }
 // console.log(quickInPlace([5,3,4,1,2]))
 
-
+type Partial<T> = {
+    [p in keyof T]?: T<p>
+}
+type Pick<T, K extends keyof T> = {
+    [p in K]: T<p> 
+}
+type Exclude<T, U> = T extends U ? never : T
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>

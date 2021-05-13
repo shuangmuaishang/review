@@ -63,3 +63,29 @@ let backpage = function(m, A, V) {
     return dp[m];
 }
 console.log(backpage(4,[1,3,4],[15, 20, 30]))
+
+// 最少硬币数凑够金额
+var coinChange = function(coins, amount) {
+    let dp = new Array(amount + 1).fill(Infinity);
+    dp[0] = 0;
+    for (let coin of coins) {
+        for (let i = coin; i <= amount; i++) {
+            dp[i] = Math.min(dp[i], dp[i - coin] + 1)
+        }
+    }
+    return dp[amount] === Infinity ? -1 : dp[amount];
+};
+console.log(coinChange([1,2,5], 11))
+
+// 凑够金额由多少种方案
+var change = function(amount, coins) {
+    let dp = new Array(amount + 1).fill(0);
+    dp[0] = 1;
+    for (let coin of coins) {
+        for (let i = coin; i <= amount; i++) {
+            dp[i] = dp[i] + dp[i - coin];
+        }
+    }
+    return dp[amount];
+};
+console.log(change(5, [1,2,5]))
